@@ -133,11 +133,12 @@ classdef Violin < handle
                 scatter(pos + jitter.*jitterstrength, data, 'filled');
 
             % plot the data mean
-            meanValue = mean(value);
-            meanDensity = interp1(value, density, meanValue);
-            obj.MeanPlot = plot([pos-meanDensity*width pos+meanDensity*width], ...
-                                [meanValue meanValue])
-            obj.MeanPlot.LineWidth = 0.75;
+            if args.ShowMean
+                meanValue = mean(data);
+                meanDensity = interp1(value, density, meanValue, 'linear', 'extrap');
+                obj.MeanPlot = plot([pos-meanDensity*width pos+meanDensity*width], [meanValue meanValue], 'k-', 'LineWidth', 1.5);
+                obj.MeanPlot.LineWidth = 0.75;
+            end
 
             % plot the violin
             obj.ViolinPlot =  ... % plot color will be overwritten later
